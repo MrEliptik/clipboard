@@ -1,28 +1,65 @@
-package ClipBoard;
+package version1_fonctionnel;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Date;
 
 public class clientClipboard {
 
 	private InputStream is;
 
-	
 	// Le buffer qui permettra de lire dans la socket 
 	byte[] bufR;
-	
 	int i = 0;
 	int filesize = 0;
 	
 	public static void main(String[] args) throws Exception {
 		clientClipboard clientTCP = new clientClipboard();
-		clientTCP.execute("C:\\Users\\victo\\Videos\\out.mp4");
+		clientTCP.executeTexte();
 	}
 	
+	private void executeTexte() throws IOException, InterruptedException
+	{
+		System.out.println("Demarrage du client ...");
+		
+		//Création objet de la classe Clipboard
+		Clipboard clp = new Clipboard();
+		
+		//Creation de la socket
+		Socket socket = new Socket();
+		
+		// Connexion au serveur 
+		System.out.println("Connexion au serveur");
+		InetSocketAddress adrDest = new InetSocketAddress("127.0.0.1",5099);
+		socket.connect(adrDest);		
+	
+		//Declaration et initalisation
+		int lenBufR = 64*1024;
+		bufR = new byte[lenBufR];
+		long startTime = 0, stopTime;
+		
+		is = socket.getInputStream();
+		
+		//on sauvagarde la temps a ce moment
+		startTime = System.currentTimeMillis();
+
+		//lecture de la trame TCP
+		int nbRead = is.read(bufR);
+		String str = new String(bufR,0,nbRead);
+
+		//écriture dans le Clipboard
+		clp.writeContent(str);
+		System.out.println("Contenu du Clipboard recu et importée :" +str);
+
+		stopTime = System.currentTimeMillis();
+		System.out.println("Tansfer success in " +(stopTime-startTime) + "ms, " + str.length() + " caractere transférés");
+		System.out.println("Fermeture du client");
+		socket.close();
+
+	}
+
 	private void execute(String file) throws IOException, InterruptedException
 	{
 		FileOutputStream fos = new FileOutputStream(file);
