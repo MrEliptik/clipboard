@@ -1,4 +1,4 @@
-package com.clipboard.victor;
+package com.victor.clipboard_GUI;
 
 
 import java.io.FileOutputStream;

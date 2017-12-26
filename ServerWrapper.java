@@ -1,14 +1,17 @@
-package com.clipboard.victor;
+package com.victor.clipboard_GUI;
 import java.io.IOException;
 
 public class ServerWrapper {
 
 	ServeurClipboard serveurTCP = null;
 	Clipboard clp = null;
+	GUI_server gui = null;
+	
 	
 	
 	public ServerWrapper(int port) throws IOException {
 		serveurTCP = new ServeurClipboard(port);
+		gui = new GUI_server();
 		clp = new Clipboard();
 	}
 	
@@ -32,6 +35,7 @@ public class ServerWrapper {
 				serverWrapper.serveurTCP.waitClient();
 				if(serverWrapper.clp.readContent() != null) {
 					serverWrapper.serveurTCP.sendText(serverWrapper.clp.readContent());	
+					serverWrapper.gui.displayNotification("Coucou");
 				}
 				serverWrapper.serveurTCP.closeClient();
 			}			
