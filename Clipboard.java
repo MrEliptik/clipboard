@@ -1,4 +1,5 @@
-package version1_fonctionnel;
+package com.clipboard.victor;
+
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
@@ -8,15 +9,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 public class Clipboard {
-
-	
-	/*public static void main(String[] args) {
-		Clipboard clp = new Clipboard();
-		System.out.append(clp.readContent());
-		//clp.writeContent("enroller par le prof");
-
-	}
-	*/
 	
 	public String readContent() {
 		String txt = null;
